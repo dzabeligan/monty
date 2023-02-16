@@ -1,26 +1,6 @@
-#include "monty.h"
 #include <string.h>
 
-void free_stack(stack_t **stack);
-int init_stack(stack_t **stack);
-int check_mode(stack_t *stack);
-
-/**
- * free_stack - Frees a stack_t stack.
- * @stack: A pointer to the top (stack) or
- *         bottom (queue) of a stack_t.
- */
-void free_stack(stack_t **stack)
-{
-	stack_t *tmp = *stack;
-
-	while (*stack)
-	{
-		tmp = (*stack)->next;
-		free(*stack);
-		*stack = tmp;
-	}
-}
+#include "monty.h"
 
 /**
  * init_stack - Initializes a stack_t stack with beginning
@@ -34,7 +14,7 @@ int init_stack(stack_t **stack)
 {
 	stack_t *s;
 
-	s = malloc(sizeof(stack_t));
+	s = (stack_t *)malloc(sizeof(stack_t));
 	if (s == NULL)
 		return (malloc_error());
 
@@ -45,6 +25,22 @@ int init_stack(stack_t **stack)
 	*stack = s;
 
 	return (EXIT_SUCCESS);
+}
+
+/**
+ * free_stack - Frees a stack_t stack.
+ * @stack: A pointer to the top (stack) or
+ *         bottom (queue) of a stack_t.
+ */
+void free_stack(stack_t **stack)
+{
+	while (*stack)
+	{
+		stack_t *tmp = (*stack)->next;
+
+		free(*stack);
+		*stack = tmp;
+	}
 }
 
 /**

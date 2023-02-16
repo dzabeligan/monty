@@ -1,9 +1,8 @@
-#include "monty.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 
-char **op_toks = NULL;
+#include "monty.h"
 
 /**
  * main - the entry point for Monty Interp
@@ -16,14 +15,24 @@ char **op_toks = NULL;
 int main(int argc, char **argv)
 {
 	FILE *script_fd = NULL;
-	int exit_code = EXIT_SUCCESS;
+	int exit_code = EXIT_FAILURE;
 
 	if (argc != 2)
-		return (usage_error());
+	{
+		fprintf(stderr, "USAGE: monty file\n");
+		return (EXIT_FAILURE);
+	}
+
 	script_fd = fopen(argv[1], "r");
 	if (script_fd == NULL)
-		return (f_open_error(argv[1]));
+	{
+		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
+		return (EXIT_FAILURE);
+	}
+
 	exit_code = run_monty(script_fd);
+
 	fclose(script_fd);
+
 	return (exit_code);
 }

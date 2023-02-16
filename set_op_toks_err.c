@@ -3,18 +3,20 @@
 /**
  * set_op_tok_error - Sets last element of op_toks to be an error code.
  * @error_code: Integer to store as a string in op_toks.
+ * @op_toks: op_toks
  */
-void set_op_tok_error(int error_code)
+void set_op_tok_error(int error_code, char **op_toks)
 {
 	int toks_len = 0, i = 0;
 	char *exit_str = NULL;
 	char **new_toks = NULL;
 
-	toks_len = token_arr_len();
-	new_toks = malloc(sizeof(char *) * (toks_len + 2));
+	toks_len = token_arr_len(op_toks);
+	new_toks = (char **)malloc(sizeof(char *) * (toks_len + 2));
 	if (!op_toks)
 	{
 		malloc_error();
+		free(new_toks);
 		return;
 	}
 	while (i < toks_len)
